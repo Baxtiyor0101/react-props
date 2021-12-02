@@ -1,0 +1,9 @@
+.container{
+  width: 500px;
+  height: 354px;
+  background: #e6e7ee;
+  box-shadow: -5px -5px 8px #fff;
+  box-sizing: border-box;
+  text-align: center;
+  padding-top: 50px;
+}
