@@ -1,199 +1,145 @@
-// import React from 'react';
-
-// class App extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       count:0,
-//       name:'',
-//       data:{
-//         status:'OK',
-//         dataList: [
-//           {
-//             id:1,
-//             name:'Eshmat',
-//             status:'Mentor',
-//           },
-//           {
-//             id:2,
-//             name:'Toshmat',
-//             status:'Gentor',
-//           },
-//           {
-//             id:3,
-//             name:'Gulmat',
-//             status:'Waiter',
-//           },
-//           {
-//             id:4,
-//             name:'Roshmat',
-//             status:'Barber',
-//           },
-//         ]
-//       }
-//     };
-//   }
-  
-  
-
-
-//   render() {
-
-//   const  increase=() => {
-//       this.setState({count:this.state.count+1});
-//     };
-
-//     const  decrease=() => {
-//       this.setState({count:this.state.count-1});
-//     };
-//     const  reset=() => {
-//       this.setState({count:0});
-//     };
-//     const onChange = (e) => {
-//       this.setState({name: e.target.value})
-//     };
-//     const onDelete = (e)=>{
-//       let res = this.state.data.dataList.filter((value)=>value.id !== e);
-//       this.setState({
-//         data:{
-//           ...this.state.data,
-//           dataList:res,
-//         },
-//       });
-//     };
-    
-//     return (
-//       <>
-//           <h1>Count  {this.state.count}</h1>   
-//           <button onClick={increase}>+</button>   
-//           <button onClick={decrease}>-</button>
-//           <button onClick={reset}>reset</button>
-//           <h1>name {this.state.name} </h1> 
-//           <br />  
-//           <input type="text" onChange={onChange}/>
-          
-//           {
-//           !this.state.data.dataList.length ?(
-//             <h1>no data</h1>
-//           ):(
-//           this.state.data.dataList.map((value)=>(
-//             <div key={value.id}>
-//               <h1>
-//                 {value.id }
-//                 {value.name}
-//                 {value.status} <button onClick={()=>onDelete(value.id)}>delete</button>
-//               </h1>
-//             </div>
-//             )))
-//           }
-//       </>
-//     );
-//   }
-// }
-
-
-// export default App;
-
-
-
 import React from 'react';
+import  { data }  from './data';
+import './App.css';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      count:0,
       name:'',
-      wrap:{
-        department:'best',
-        dataList:[
-          {
-            id:1,
-            status:'student',
-            name:'Baxtiyor',
-          },
-          {
-            id:2,
-            status:'worker',
-            name:'Eshmat',
-          },
-          {
-            id:3,
-            status:'waiter',
-            name:'Toshmat',
-          },
-          {
-            id:4,
-            status:'Mentor',
-            name:'Abdulquddus',
-          }
-
-
-
-
-        ]
-      }
+      age:'',
+      Address:'',
+      status:'',
+      nickName:'',
+    data:{
+      status:'OK',
+      dataList:data,
+    }
     };
   }
 
   render() {
+      console.log(this.state.data.dataList);
+      const onDelete=(id)=>{
+          let res=this.state.data.dataList.filter((item)=>item.id !== id)
+          this.setState({
+            data:{
+              ...this.state.data,
+              dataList:res
+            }
+          })
+      };
 
-    const increase=() =>{
-      this.setState({count:this.state.count+1});
-    };
-    const decrease=() =>{
-      this.setState({count:this.state.count-1});
-    };
-    const reset=() =>{
-      this.setState({count:0});
-    };
-    const onChange=(e) =>{
-      this.setState({name:e.target.value})
-;    }
-
-const onDelete=(e)=>{
-  let reobj=this.state.wrap.dataList.filter((value)=>value.id!==e);
-  this.setState({
-    wrap:{
-      ...this.state.wrap,
-      dataList:reobj,
-    },
-  });
-};
-
-
+      const onChange=(e)=>{
+        this.setState({
+          [e.target.name]: e.target.value,
+        });
+      }
+      const onSave=()=>{
+        const newData={
+          id:Date.now(),
+          name:this.state.name,
+          age:this.state.age,
+          Address:this.state.Address,
+          status: this.state.status,
+          nickName: this.state.nickName,
+        }; 
+        this.state.name.length && this.state.status.length
+        ? this.setState({
+          data:{
+            ...this.state.data,
+            dataList:
+            [...this.state.data.dataList,newData],
+          },
+          name:'',
+          age:'',
+          Address:'',
+          status:'',
+          nickName:'',
+        })
+        : alert('please fill the box');
+      }
 
     return (
-      <div>
-        <h1>Count:{this.state.count} </h1>
-        <button onClick={increase}>+</button>
-        <button onClick={decrease}>-</button>
-        <button onClick={reset}>reset</button>
+      <>
+        <input 
+        value={this.state.name}
+        onChange={onChange} 
+        placeholder='name' 
+        type="text" 
+        name='name'/>
 
-        <h1>name{this.state.name}</h1>
-        <br />
-        <input onChange={onChange} type="text" />
+        <input 
+        value={this.state.age}
+        onChange={onChange} 
+        placeholder='age' 
+        type="number" 
+        name='age'/>
 
-        {
-           !this.state.wrap.dataList.length ?(
-             <h1>malumot qolmadi</h1>
-           ):(
-            this.state.wrap.dataList.map((value)=>(
-              <div key={value.id}>
-                <h1>
-                {value.id}
-                {value.status}
-                {value.name} <button onClick={()=>onDelete(value.id)}>delete</button>
-              </h1>
+        <input 
+        value={this.state.Address}
+        onChange={onChange} 
+        placeholder='Address' 
+        type="text" 
+        name='Address'/>
+        
+        <input
+        value={this.state.status}
+         onChange={onChange} 
+         placeholder='status' 
+         type="text" 
+         name='status'/>
+
+        <input 
+        value={this.state.nickName}
+        onChange={onChange} 
+        placeholder='nickName' 
+        type="text" 
+        name='nickName'/>
+                 
+        {<button onClick={onSave}>save</button>}
+         
+        
+          
+            {this.state.data.dataList.map((value, index)=>(
+              <div className="grid-container">
+                <div className="grid-item">
+                    {index+1}
+                </div>
+                <div className="grid-item">
+                    {value.name}
+                </div>
+                <div className="grid-item">
+                    {value.age}
+                </div>
+                <div className="grid-item">
+                    {value.status}
+                </div>
+                <div className="grid-item">
+                    {value.nickName}
+                </div>
+                <div className="grid-item">
+                    {value.Address}
+                </div>
+                <div className="grid-item">
+                { <button onClick={()=>onDelete(value.id)}>delete</button> }
+                </div>
+
               </div>
-            ))
-           )
-        }
-
-      </div>
+              
+              ))}
+          
+       
+      </>
     );
   }
 }
 
 
 export default App;
+
+
+
+
+//{value.name} {value.age} {value.Address} {value.status} {value.nickName}
+//{ <button onClick={()=>onDelete(value.id)}>delete</button> }
