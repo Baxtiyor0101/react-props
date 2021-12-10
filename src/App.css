@@ -1,5 +1,9 @@
 .grid-container {
-  width: 600px;
+  width: 500px;
+  position: absolute;
+  height: 150px;
+  overflow-x: scroll;
+  overflow-y: scroll;
   /* height: 400px; */
   display: grid;
   grid-template-columns: auto auto auto auto auto auto auto;
@@ -17,7 +21,12 @@
   border-radius: 5px;
 }
 
-.box{
-  height: 700px;
-  background-color: tomato;
+.button{
+  position: -webkit-sticky;
+  position: sticky;
+  right: 0;
+  padding: 5px;
+  background-color: #cae8ca;
+  border: 2px solid #4CAF50;
 }
+

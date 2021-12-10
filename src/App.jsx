@@ -99,10 +99,13 @@ class App extends React.Component {
                  
         {<button onClick={onSave}>save</button>}
          
-        
-          
-            {this.state.data.dataList.map((value, index)=>(
-              <div className="grid-container">
+             
+             
+           <div className="box">
+           <div className="grid-container">
+           {this.state.data.dataList.map((value, index)=>(
+              
+                <>
                 <div className="grid-item">
                     {index+1}
                 </div>
@@ -122,12 +125,14 @@ class App extends React.Component {
                     {value.Address}
                 </div>
                 <div className="grid-item">
-                { <button onClick={()=>onDelete(value.id)}>delete</button> }
+                { <button className="fixed" onClick={()=>onDelete(value.id)}>delete</button> }
                 </div>
 
-              </div>
-              
+                </>
+             
               ))}
+               </div>
+           </div>
           
        
       </>

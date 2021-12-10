@@ -31,5 +31,21 @@ export const data=[
         Address:'Surx',
         nickName:'Rock',
       },
+      {
+        id:4,
+        status:'student',
+        name:'Baxtiyor',
+        age:12,
+        Address:'Sam',
+        nickName:'Boss',
+      },
+      {
+        id:5,
+        status:'student',
+        name:'Baxtiyor',
+        age:12,
+        Address:'Sam',
+        nickName:'Boss',
+      },
 
     ];
