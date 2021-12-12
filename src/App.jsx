@@ -1,150 +1,166 @@
 import React from 'react';
-import  { data }  from './data';
-import './App.css';
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
+   
+    
+    state = {
       name:'',
-      age:'',
-      Address:'',
       status:'',
-      nickName:'',
-    data:{
-      status:'OK',
-      dataList:data,
-    }
+      selected:null,
+      list:[
+        {id:1,name:'Baxtiyor', status:'student' },
+        {id:2, name:'Eshmat', status:'worker'},
+        {id:3,  name:'Toshmat', status:'waiter'},
+        {id:4 , name:'Toshmat', status:'waiter'}
+      ],
+  };
+
+
+
+
+  render(){
+  
+
+
+
+
+    //edit
+    const onEdit = (value)=>{
+       this.setState({
+         selected:value.id,
+         name:value.name,
+         status:value.status,
+       });
     };
-  }
+    const onSave=()=>{
+      this.setState({selected:null})
+      const newData = this.state.list.map(element => 
+        element.id === this.state.selected
+        ? { ...element, name:this.state.name, status:this.state.status}
+        : element        
+      );
+    
+      this.setState({list:newData});
+    };
+    
 
-  render() {
-      console.log(this.state.data.dataList);
-      const onDelete=(id)=>{
-          let res=this.state.data.dataList.filter((item)=>item.id !== id)
-          this.setState({
-            data:{
-              ...this.state.data,
-              dataList:res
-            }
-          })
-      };
 
-      const onChange=(e)=>{
-        this.setState({
-          [e.target.name]: e.target.value,
-        });
-      }
-      const onSave=()=>{
-        const newData={
-          id:Date.now(),
-          name:this.state.name,
-          age:this.state.age,
-          Address:this.state.Address,
-          status: this.state.status,
-          nickName: this.state.nickName,
-        }; 
-        this.state.name.length && this.state.status.length
-        ? this.setState({
-          data:{
-            ...this.state.data,
-            dataList:
-            [...this.state.data.dataList,newData],
-          },
-          name:'',
-          age:'',
-          Address:'',
-          status:'',
-          nickName:'',
-        })
-        : alert('please fill the box');
-      }
 
-    return (
-      <>
-        <input 
-        value={this.state.name}
-        onChange={onChange} 
-        placeholder='name' 
-        type="text" 
-        name='name'/>
+    
+    //delete
+    const onDelete=(id)=>{
+      let res=this.state.list.filter((item)=>item.id !== id)
+      this.setState({
+        list:res
+      })
+    };
+    
 
-        <input 
-        value={this.state.age}
-        onChange={onChange} 
-        placeholder='age' 
-        type="number" 
-        name='age'/>
 
-        <input 
-        value={this.state.Address}
-        onChange={onChange} 
-        placeholder='Address' 
-        type="text" 
-        name='Address'/>
+
+
+
+
+const onSaves=()=>{
+  const newData={
+    id:this.state.id,
+    name:this.state.name,
+    status:this.state.status,
+  };
+
+  this.state.id.length && this.state.name.length && this.state.status.length
+  ? this.setState({
+    list:[
+      ...this.state.list,newData
+    ],
+    // id='',
+    // name='',
+    // status='',
+  })
+  : alert('please fill the box');
+
+}
+
+
+
+
+const onSearch = (e)=>{
+  const newData = this.state.list.filter((value)=>
+  value.name.includes(e.target.value));
+  this.setState({list: newData});
+};
+
+
+    
+    return(
         
-        <input
-        value={this.state.status}
-         onChange={onChange} 
-         placeholder='status' 
-         type="text" 
-         name='status'/>
+      //Editing
+      <div className='containers'>
+          <input type="text" onChange={onSearch} /> <br />
+        <input type="text" name='id' placeholder='id'  onChange={(e)=>this.setState({id: e.target.value})} />    
+        <input type="text" name='name' placeholder='name'  onChange={(e)=>this.setState({name: e.target.value})} />    
+        <input type="text" name='status' placeholder='status'  onChange={(e)=>this.setState({status: e.target.value})} /> 
+        {<button onClick={onSaves} >Add</button>}   
 
-        <input 
-        value={this.state.nickName}
-        onChange={onChange} 
-        placeholder='nickName' 
-        type="text" 
-        name='nickName'/>
-                 
-        {<button onClick={onSave}>save</button>}
-         
-             
-             
-           <div className="box">
-           <div className="grid-container">
-           {this.state.data.dataList.map((value, index)=>(
-              
-                <>
-                <div className="grid-item">
-                    {index+1}
-                </div>
-                <div className="grid-item">
-                    {value.name}
-                </div>
-                <div className="grid-item">
-                    {value.age}
-                </div>
-                <div className="grid-item">
-                    {value.status}
-                </div>
-                <div className="grid-item">
-                    {value.nickName}
-                </div>
-                <div className="grid-item">
-                    {value.Address}
-                </div>
-                <div className="grid-item">
-                { <button className="fixed" onClick={()=>onDelete(value.id)}>delete</button> }
-                </div>
 
-                </>
-             
-              ))}
-               </div>
-           </div>
-          
-       
-      </>
+
+
+
+        <table border='1' style={{borderCollapse: 'collapse' , width:'600px'}}>
+          <thead>
+            <tr>              
+            <th>ID</th>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.state.list.map((value)=>(
+              <tr key={value.id}>
+                <td>{value.id}</td>
+                <td style={{width:'200px'}}>
+                  {
+                    this.state.selected===value.id ?(
+                      <input 
+                      value={this.state.name} 
+                      type="text"
+                      onChange={(e)=>
+                        this.setState({name: e.target.value})
+                       } 
+                      />
+                      ):(
+                        value.name     
+                    )}</td>
+                <td style={{width:'200px'}}>{
+                    this.state.selected===value.id ?(
+                      <input 
+                      value={this.state.status} 
+                      type="text"
+                      onChange={(e)=>
+                      this.setState({status: e.target.value})
+                    }/>
+                    ):(
+                       value.status    
+                    )}</td>
+                <td>
+                  {this.state.selected === value.id ? 
+                  (
+                    <button onClick={onSave}>save</button>
+                    ): (
+                    <button onClick={()=>onEdit(value)}>edit</button>
+                   
+                    )}
+                    {/* //edit button */}
+                    <button onClick={()=>onDelete(value.id)}>delete</button>
+                  </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     );
   }
 }
 
-
 export default App;
-
-
-
-
-//{value.name} {value.age} {value.Address} {value.status} {value.nickName}
-//{ <button onClick={()=>onDelete(value.id)}>delete</button> }
