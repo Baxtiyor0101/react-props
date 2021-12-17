@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import { Data } from './data.js';
+import { Thead } from './AppStyle.js';
 
 class App extends React.Component {
    
@@ -34,11 +35,11 @@ class App extends React.Component {
         ? { ...element, name:this.state.name, status:this.state.status}
         : element        
       );
-    
+       
       this.setState({Data:newData});
     };
-    
- 
+
+  
     
     //delete
     const onDelete=(id)=>{
@@ -82,9 +83,11 @@ const onSearch = (e)=>{
 
 
 return(
+ 
          
       //Editing
       <div className='containers'>
+        <Box />
         <input placeholder='Search' id='search-by-column' type="text" onChange={onSearch} /> 
         <select onChange={(e)=>this.setState({value:e.target.value})}   name="search-culumn" id="search-column">
           <option value="ID">ID</option>
@@ -104,14 +107,15 @@ return(
 
  
         <table className='table' border='1' style={{borderCollapse: 'collapse' , width:'700px'}}>
-          <thead>
+          <Thead>
             <tr>              
             <th>ID</th>
             <th>Name</th>
             <th>Status</th>
             <th>Action</th>
             </tr>
-          </thead>
+          </Thead>
+
           <tbody>
             {this.state.list.map((value)=>(
               <tr key={value.id}>
